@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Unidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .resultado {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .unidade {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Consulta de Unidades</h1>
+    <form method="POST">
+        <label for="unidade">Digite o nome da unidade:</label><br>
+        <input type="text" name="unidade" id="unidade" required><br>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if resultado %}
+        <div class="resultado">
+            <h3>Unidades encontradas:</h3>
+            {% for item in resultado %}
+                <div class="unidade">
+                    <p><strong>Cidade:</strong> {{ item["Cidade"] }}</p>
+                    <p><strong>Nome da unidade:</strong> {{ item["Nome da unidade"] }}</p>
+                    <p><strong>Serial do DVR:</strong> {{ item["Serial do DVR"] }}</p>
+                    <p><strong>MAC da central do alarme:</strong> {{ item["MAC da central do alarme"] }}</p>
+                    <p><strong>Última preventiva realizada:</strong> {{ item["Última preventiva realizada"] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if request.method == 'POST' %}
+            <div class="resultado">
+                <p>Nenhuma unidade encontrada.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
