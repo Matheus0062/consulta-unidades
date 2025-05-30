@@ -2,14 +2,19 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Consulta de Unidade</title>
+    <title>Consulta de Unidades</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/684/684908.png" type="image/png">
 </head>
 <body>
 
     <header>
         <h1>Consulta de Unidades</h1>
+        <div style="position: absolute; top: 20px; right: 20px;">
+            <span style="color: white;">Logado como: {{ usuario }}</span>
+            <a href="{{ url_for('logout') }}">
+                <button style="margin-left: 10px;">Sair</button>
+            </a>
+        </div>
     </header>
 
     <form method="POST">
@@ -32,10 +37,8 @@
             {% endfor %}
         </div>
     {% else %}
-        {% if request.method == 'POST' %}
-            <div class="resultado">
-                <p>Nenhuma unidade encontrada.</p>
-            </div>
+        {% if resultado is not none %}
+            <p><strong>Nenhuma unidade encontrada.</strong></p>
         {% endif %}
     {% endif %}
 

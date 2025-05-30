@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Plataforma de Consulta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Login de Acesso</h1>
+    </header>
+
+    <form method="POST">
+        <label for="usuario">Usuário:</label><br>
+        <input type="text" name="usuario" id="usuario" required><br>
+
+        <label for="senha">Senha:</label><br>
+        <input type="password" name="senha" id="senha" required><br><br>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    {% if erro %}
+        <p style="color:red; text-align:center;"><strong>{{ erro }}</strong></p>
+    {% endif %}
+</body>
+</html>
