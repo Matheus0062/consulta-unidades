@@ -18,7 +18,7 @@ def login():
         usuario = request.form.get("usuario")
         senha = request.form.get("senha")
 
-        usuarios = carregar_usuarios()  # ← Carrega os usuários dinamicamente
+        usuarios = carregar_usuarios()
 
         if usuario in usuarios and usuarios[usuario] == senha:
             session["usuario"] = usuario
@@ -34,29 +34,27 @@ def index():
     if "usuario" not in session:
         return redirect(url_for("login"))
 
-    resultado = None
+    resultados = None
 
     if request.method == "POST":
-        entrada = request.form["unidade"].strip().upper()
+        entrada = request.form.get("unidade", "").strip().upper()  # <-- Corrigido aqui
         caminho = os.path.join(os.path.dirname(__file__), "Suporte.xlsx")
 
         colunas = ["Cidade", "Nome da unidade", "Serial do DVR", "MAC da central do alarme", "Última preventiva realizada"]
         df = pd.read_excel(caminho, usecols=colunas)
 
-        resultados = df[df["Nome da unidade"].str.upper().str.contains(entrada)]
+        encontrados = df[df["Nome da unidade"].str.upper().str.contains(entrada)]
 
-        if len(resultados) == 1:
-            resultado = [resultados.iloc[0].to_dict()]
-        elif len(resultados) > 1:
-            resultado = resultados.to_dict(orient="records")
+        if not encontrados.empty:
+            resultados = encontrados.to_dict(orient="records")
         else:
-            resultado = []
+            resultados = []
 
-    return render_template("index.html", resultado=resultado, usuario=session["usuario"])
+    return render_template("index.html", resultados=resultados, usuario=session["usuario"])
 
 @app.route("/logout")
 def logout():
-    session.pop("usuario", None)
+    session.clear()
     return redirect(url_for("login"))
 
 if __name__ == "__main__":

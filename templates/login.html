@@ -1,27 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Login - Plataforma de Consulta</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        .topbar {
+            background-color: #0057b7;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .login-box button {
+            width: 100%;
+            background-color: #0057b7;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background-color: #004099;
+        }
+
+        .erro {
+            background-color: #ffdede;
+            color: #b00020;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Login de Acesso</h1>
-    </header>
+    <div class="topbar">Login de Acesso</div>
 
-    <form method="POST">
-        <label for="usuario">Usuário:</label><br>
-        <input type="text" name="usuario" id="usuario" required><br>
+    <div class="container">
+        <div class="login-box">
+            {% if erro %}
+                <div class="erro">{{ erro }}</div>
+            {% endif %}
 
-        <label for="senha">Senha:</label><br>
-        <input type="password" name="senha" id="senha" required><br><br>
+            <form method="POST">
+                <label for="usuario">Usuário:</label>
+                <input type="text" name="usuario" id="usuario" required>
 
-        <button type="submit">Entrar</button>
-    </form>
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" required>
 
-    {% if erro %}
-        <p style="color:red; text-align:center;"><strong>{{ erro }}</strong></p>
-    {% endif %}
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

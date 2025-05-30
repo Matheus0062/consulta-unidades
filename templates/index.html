@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Consulta de Unidades</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
     <header>
-        <h1>Consulta de Unidades</h1>
-        <div style="position: absolute; top: 20px; right: 20px;">
-            <span style="color: white;">Logado como: {{ usuario }}</span>
-            <a href="{{ url_for('logout') }}">
-                <button style="margin-left: 10px;">Sair</button>
-            </a>
+        <div class="container">
+            <h1>Consulta de Unidades</h1>
+            <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
         </div>
     </header>
 
-    <form method="POST">
-        <label for="unidade">Digite o nome da unidade:</label><br>
-        <input type="text" name="unidade" id="unidade" required><br>
-        <button type="submit">Buscar</button>
-    </form>
+    <main>
+        <div class="card">
+            <form method="POST">
+                <label for="unidade"><strong>Digite o nome da unidade:</strong></label><br>
+                <input type="text" name="unidade" id="unidade" required><br>
+                <button type="submit">Buscar</button>
+            </form>
 
-    {% if resultado %}
-        <div class="resultado">
-            <h3>Unidades encontradas:</h3>
-            {% for item in resultado %}
-                <div class="unidade">
-                    <p><strong>Cidade:</strong> {{ item["Cidade"] }}</p>
-                    <p><strong>Nome da unidade:</strong> {{ item["Nome da unidade"] }}</p>
-                    <p><strong>Serial do DVR:</strong> {{ item["Serial do DVR"] }}</p>
-                    <p><strong>MAC da central do alarme:</strong> {{ item["MAC da central do alarme"] }}</p>
-                    <p><strong>Última preventiva realizada:</strong> {{ item["Última preventiva realizada"] }}</p>
-                </div>
-            {% endfor %}
+            {% if resultados is not none %}
+                {% if resultados %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cidade</th>
+                                <th>Nome da unidade</th>
+                                <th>Serial do DVR</th>
+                                <th>MAC da central do alarme</th>
+                                <th>Última preventiva realizada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in resultados %}
+                            <tr>
+                                <td>{{ item["Cidade"] }}</td>
+                                <td>{{ item["Nome da unidade"] }}</td>
+                                <td>{{ item["Serial do DVR"] }}</td>
+                                <td>{{ item["MAC da central do alarme"] }}</td>
+                                <td>{{ item["Última preventiva realizada"] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p><strong>Nenhuma unidade encontrada.</strong></p>
+                {% endif %}
+            {% endif %}
         </div>
-    {% else %}
-        {% if resultado is not none %}
-            <p><strong>Nenhuma unidade encontrada.</strong></p>
-        {% endif %}
-    {% endif %}
-
+    </main>
 </body>
 </html>
